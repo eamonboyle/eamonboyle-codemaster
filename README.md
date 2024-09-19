@@ -1,29 +1,37 @@
-# Create T3 App
+# CodeMaster
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+CodeMaster is an interactive coding learning system featuring challenges, courses, and code execution capabilities.
 
-## What's next? How do I make an app with this?
+## Tech Stack
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- [Create T3 App](https://create.t3.gg/) - The best way to start a full-stack, typesafe Next.js app
+- [Next.js](https://nextjs.org/) - The React Framework for the Web
+- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript
+- [React](https://reactjs.org/) - A JavaScript library for building user interfaces
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Shadcn UI](https://ui.shadcn.com/) - Re-usable components built with Radix UI and Tailwind CSS
+- [React Router](https://reactrouter.com/) - Declarative routing for React
+- [Clerk](https://clerk.com) - Clerk Authentication
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Features
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- [ ] Interactive coding challenges
+- [ ] Comprehensive courses
+- [x] Real-time code execution
+- [ ] User progress tracking
 
-## Learn More
+## Getting Started
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+1. Clone the repository
+2. Install dependencies: `bun install`
+3. Run `cp .env.example .env `
+4. Input your .env variables
+5. Start the development server: `bun dev`
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Contributing
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Contributions are welcome! Please read our contributing guidelines for details.
 
-## How do I deploy this?
+## License
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+This project is licensed under the MIT License - see the LICENSE file for details.

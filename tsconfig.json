@@ -9,6 +9,8 @@
     "moduleDetection": "force",
     "isolatedModules": true,
 
+    "forceConsistentCasingInFileNames": true,
+
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
