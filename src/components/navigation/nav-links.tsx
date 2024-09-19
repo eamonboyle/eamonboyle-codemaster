@@ -73,9 +73,14 @@ const NavLinks: React.FC = () => {
         </>
       )}
       {!isSignedIn ? (
-        <Link href="/sign-up">
-          <Button variant="outline">Sign Up</Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/sign-up">
+            <Button variant="outline">Sign Up</Button>
+          </Link>{" "}
+          <Link href="/sign-in">
+            <Button variant="outline">Sign In</Button>
+          </Link>
+        </div>
       ) : (
         <UserButton
           appearance={{

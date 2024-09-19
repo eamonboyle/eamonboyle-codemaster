@@ -1,21 +1,11 @@
-"use client";
+import { currentUser } from "@/lib/current-user";
 
-import { useAuth, useUser } from "@clerk/nextjs";
+export default async function DashboardPage() {
+  const user = await currentUser();
 
-export default function DashboardPage() {
-  const { isSignedIn, isLoaded, userId } = useAuth();
-  const { user } = useUser();
-
-  if (!isLoaded) {
-    // Handle loading state however you like
+  if (!user) {
     return null;
   }
 
-  if (isSignedIn) {
-    return (
-      <div className="container mx-auto py-8">Hello {user?.fullName}!</div>
-    );
-  }
-
-  return <div>Not signed in</div>;
+  return <div className="container mx-auto py-8">Hello {user.email}!</div>;
 }
