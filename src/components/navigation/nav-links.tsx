@@ -59,7 +59,7 @@ const NavLinks: React.FC = () => {
               isActive("/dashboard") && "font-bold underline",
             )}
           >
-            Profile
+            Dashboard
           </Link>
           <Link
             href="/code-test"

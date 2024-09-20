@@ -6,7 +6,13 @@ export default async function Page() {
   const user = await initialUser();
 
   if (user) {
-    redirect("/dashboard");
+    if (user.role === "ADMIN") {
+      redirect("/admin/dashboard");
+    } else if (user.role === "INSTRUCTOR") {
+      redirect("/instructor/dashboard");
+    } else {
+      redirect("/dashboard");
+    }
   }
 
   return <div>Finish Sign Up</div>;
