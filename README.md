@@ -23,10 +23,11 @@ CodeMaster is an interactive coding learning system featuring challenges, course
 
 1. Clone the repository
 2. Install dependencies: `npm install`
-3. Run `cp .env.example .env` and set `DATABASE_URL`, `CLERK_SECRET_KEY`, and `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (from the [Clerk dashboard](https://dashboard.clerk.com))
-4. Apply the database: `npx prisma migrate deploy` (or `npx prisma db push` for a quick local setup)
-5. Optional seed data: `npx prisma db seed`
-6. Start the dev server: `npm run dev`
+3. Start Postgres locally: `docker compose up -d` (uses the default `DATABASE_URL` in `.env.example`, or set your own in `.env`)
+4. Run `cp .env.example .env` and set `CLERK_SECRET_KEY` and `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (from the [Clerk dashboard](https://dashboard.clerk.com)); keep `DATABASE_URL` as in the example if you use the Docker Compose service
+5. Apply the database: `npx prisma migrate deploy` (or `npx prisma db push` for a quick local setup)
+6. Optional seed data: `npx prisma db seed`
+7. Start the dev server: `npm run dev`
 
 ## Contributing
 
