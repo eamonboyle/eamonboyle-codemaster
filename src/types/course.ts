@@ -1,4 +1,9 @@
-import { type Challenge, type Course, type Profile, type User } from "@prisma/client";
+import {
+  type Challenge,
+  type Course,
+  type Profile,
+  type User,
+} from "@/generated/prisma/client";
 
 export type CourseWithOwner = Course & {
   id: number;

@@ -1,7 +1,18 @@
-import { PrismaClient, UserRole } from "@prisma/client";
-const prisma = new PrismaClient();
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
+import { PrismaClient, UserRole } from "../src/generated/prisma/client.js";
 
-// Function to delete all data from the database
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  console.error("Missing DATABASE_URL");
+  process.exit(1);
+}
+
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
+
 async function deleteAllData() {
   console.log("Deleting all data...");
 
@@ -13,22 +24,18 @@ async function deleteAllData() {
   await prisma.course.deleteMany();
   console.log("Deleted course-related records");
 
-  // Delete all records from the Logins table
   await prisma.logins.deleteMany();
   console.log("Deleted all login records");
 
-  // Delete all records from the Profile table
   await prisma.profile.deleteMany();
   console.log("Deleted all profile records");
 
-  // Delete all records from the User table
   await prisma.user.deleteMany();
   console.log("Deleted all user records");
 
   console.log("All data has been deleted.");
 }
 
-// Call the deleteAllData function before creating new records
 await deleteAllData();
 
 async function main() {
@@ -66,7 +73,6 @@ async function main() {
 
   console.log({ alice, bob });
 
-  // Create courses
   const courses = [
     {
       title: "Introduction to Web Development",
@@ -143,12 +149,12 @@ async function main() {
   console.log("Seeded challenges and a sample blog post");
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+try {
+  await main();
+} catch (e) {
+  console.error(e);
+  process.exit(1);
+} finally {
+  await prisma.$disconnect();
+  await pool.end();
+}
