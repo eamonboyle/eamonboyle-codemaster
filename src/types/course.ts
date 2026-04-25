@@ -6,7 +6,6 @@ import {
 } from "@/generated/prisma/client";
 
 export type CourseWithOwner = Course & {
-  id: number;
   owner:
     | (User & {
         profile: Profile | null;

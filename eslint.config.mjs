@@ -1,7 +1,4 @@
-/**
- * Next.js 16 removed `next lint`; this uses the flat config from `eslint-config-next`.
- * Kept on ESLint 9.x: ESLint 10.2 + eslint-config-next currently hits a scope-manager bug.
- */
+// `next lint` was removed in Next 16; pin ESLint 9 until eslint-config-next supports 10.
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);

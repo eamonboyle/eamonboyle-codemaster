@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
-// Dummy URL is only for `prisma generate` / install when .env is missing (not used to connect then).
+// Fallback for `prisma generate` when DATABASE_URL is unset (e.g. clean CI install).
 const databaseUrl =
   process.env.DATABASE_URL ??
   "postgresql://postgres:postgres@127.0.0.1:5432/_prisma_generate_only";

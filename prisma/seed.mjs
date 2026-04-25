@@ -10,35 +10,24 @@ if (!connectionString) {
 }
 
 const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
-async function deleteAllData() {
-  console.log("Deleting all data...");
-
+async function clearDatabase() {
   await prisma.submission.deleteMany();
   await prisma.challenge.deleteMany();
   await prisma.enrollment.deleteMany();
   await prisma.comment.deleteMany();
   await prisma.blogPost.deleteMany();
   await prisma.course.deleteMany();
-  console.log("Deleted course-related records");
-
   await prisma.logins.deleteMany();
-  console.log("Deleted all login records");
-
   await prisma.profile.deleteMany();
-  console.log("Deleted all profile records");
-
   await prisma.user.deleteMany();
-  console.log("Deleted all user records");
-
-  console.log("All data has been deleted.");
 }
 
-await deleteAllData();
+async function seed() {
+  console.log("Clearing existing data...");
+  await clearDatabase();
 
-async function main() {
   const alice = await prisma.user.create({
     data: {
       clerkId: "clerk_alice",
@@ -91,22 +80,16 @@ async function main() {
     },
   ];
 
-  const created = [];
-  for (const course of courses) {
-    const row = await prisma.course.create({
-      data: {
-        ...course,
-        owner: {
-          connect: {
-            id: bob.id,
-          },
+  const created = await Promise.all(
+    courses.map((course) =>
+      prisma.course.create({
+        data: {
+          ...course,
+          owner: { connect: { id: bob.id } },
         },
-      },
-    });
-    created.push(row);
-  }
-
-  console.log("Created courses");
+      }),
+    ),
+  );
 
   const intro = created[0];
   if (intro) {
@@ -146,11 +129,11 @@ async function main() {
     },
   });
 
-  console.log("Seeded challenges and a sample blog post");
+  console.log("Seed complete.");
 }
 
 try {
-  await main();
+  await seed();
 } catch (e) {
   console.error(e);
   process.exit(1);
