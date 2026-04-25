@@ -79,8 +79,8 @@ export default function HomePage() {
             >
               Bring Your Code to Life
             </Button>
-            <p className="mt-4 italic text-blue-400">
-              Witness the power of your code in the console!
+            <p className="mt-2 min-h-[1.5rem] text-sm text-blue-200">
+              {output ? `Result: ${output}` : "Run a snippet to see the result here."}
             </p>
           </div>
         </div>

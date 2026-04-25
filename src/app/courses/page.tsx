@@ -9,18 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { CourseWithOwner } from "@/types/course";
+import { listCoursesWithOwner } from "@/data/courses";
 
-async function getCourses(): Promise<CourseWithOwner[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) throw new Error("Failed to fetch courses");
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export default async function CoursesPage() {
-  const courses = await getCourses();
+  const courses = await listCoursesWithOwner();
 
   return (
     <div className="container mx-auto py-8">

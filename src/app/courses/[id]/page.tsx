@@ -1,28 +1,17 @@
-import { notFound } from "next/navigation";
 import Image from "next/image";
-import { CourseWithOwner } from "@/types/course";
 import { BreadcrumbWithCustomSeparator } from "@/components/navigation/breadcrumb-with-custom-serpator";
+import { getCourseByIdWithOwner } from "@/data/courses";
+import { Badge } from "@/components/ui/badge";
 
-async function getCourse(id: string): Promise<CourseWithOwner> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${id}`,
-    {
-      next: { revalidate: 3600 },
-    },
-  );
-  if (!res.ok) {
-    if (res.status === 404) notFound();
-    throw new Error("Failed to fetch course");
-  }
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export default async function CoursePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const course = await getCourse(params.id);
+  const { id } = await params;
+  const course = await getCourseByIdWithOwner(Number(id));
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
@@ -59,7 +48,27 @@ export default async function CoursePage({
           )}
         </div>
       </div>
-      {/* Add more course details here */}
+      {course.Challenge.length > 0 && (
+        <div className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold">Challenges</h2>
+          <ul className="space-y-3">
+            {course.Challenge.map((ch) => (
+              <li
+                key={ch.id}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-md border p-4"
+              >
+                <div>
+                  <p className="font-medium">{ch.title}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {ch.description}
+                  </p>
+                </div>
+                <Badge variant="secondary">{ch.difficulty}</Badge>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

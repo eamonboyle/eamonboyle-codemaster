@@ -21,24 +21,20 @@ export default function CodeTestPage() {
     }
   };
 
-  const runCode = async () => {
+  const runCode = () => {
     setIsLoading(true);
-    {
-      /*try {
-      const result = await executeCode(code);
-      setOutput(result);
-    } catch (error) {
-      console.error(error);
-      setOutput("Error executing code");
-    } finally {
-      setIsLoading(false);
-    }*/
-    }
-
     setTimeout(() => {
-      setIsLoading(false);
-      setOutput("Hello World");
-    }, 2000);
+      try {
+        const result = new Function(code)();
+        setOutput(String(result));
+      } catch (err) {
+        setOutput(
+          err instanceof Error ? `Error: ${err.message}` : "An error occurred",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    }, 0);
   };
 
   return (

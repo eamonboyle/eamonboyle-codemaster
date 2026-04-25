@@ -1,4 +1,4 @@
-import { Course, User, Profile } from "@prisma/client";
+import { type Challenge, type Course, type Profile, type User } from "@prisma/client";
 
 export type CourseWithOwner = Course & {
   id: number;
@@ -7,4 +7,8 @@ export type CourseWithOwner = Course & {
         profile: Profile | null;
       })
     | null;
+};
+
+export type CourseWithOwnerAndChallenges = CourseWithOwner & {
+  Challenge: Challenge[];
 };

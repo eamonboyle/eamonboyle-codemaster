@@ -5,9 +5,13 @@ const prisma = new PrismaClient();
 async function deleteAllData() {
   console.log("Deleting all data...");
 
-  // Delete all records from the Course table
+  await prisma.submission.deleteMany();
+  await prisma.challenge.deleteMany();
+  await prisma.enrollment.deleteMany();
+  await prisma.comment.deleteMany();
+  await prisma.blogPost.deleteMany();
   await prisma.course.deleteMany();
-  console.log("Deleted all course records");
+  console.log("Deleted course-related records");
 
   // Delete all records from the Logins table
   await prisma.logins.deleteMany();
@@ -81,8 +85,9 @@ async function main() {
     },
   ];
 
+  const created = [];
   for (const course of courses) {
-    await prisma.course.create({
+    const row = await prisma.course.create({
       data: {
         ...course,
         owner: {
@@ -92,9 +97,50 @@ async function main() {
         },
       },
     });
+    created.push(row);
   }
 
   console.log("Created courses");
+
+  const intro = created[0];
+  if (intro) {
+    await prisma.challenge.createMany({
+      data: [
+        {
+          courseId: intro.id,
+          title: "Build a static landing page",
+          description:
+            "Recreate a simple one-column layout using semantic HTML. Focus on clear headings and a call-to-action button.",
+          difficulty: "EASY",
+        },
+        {
+          courseId: intro.id,
+          title: "Style with a responsive grid",
+          description:
+            "Use CSS (or a framework) to build a two-column layout that stacks on small screens.",
+          difficulty: "MEDIUM",
+        },
+        {
+          courseId: intro.id,
+          title: "Fetch and display API data",
+          description:
+            "Use fetch to load JSON from a public API and render a list. Handle loading and error states.",
+          difficulty: "HARD",
+        },
+      ],
+    });
+  }
+
+  await prisma.blogPost.create({
+    data: {
+      title: "Welcome to the CodeMaster blog",
+      content:
+        "We publish short articles on full-stack development, data structures, and how to get the most from our challenges and courses.",
+      published: true,
+    },
+  });
+
+  console.log("Seeded challenges and a sample blog post");
 }
 
 main()
