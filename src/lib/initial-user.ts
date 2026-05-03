@@ -1,12 +1,12 @@
 import { db } from "@/server/db";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { UserRole } from "@prisma/client";
+import { UserRole } from "@/generated/prisma/client";
 
 export const initialUser = async () => {
   const user = await currentUser();
 
   if (!user) {
-    return auth().redirectToSignIn();
+    return (await auth()).redirectToSignIn();
   }
 
   const primaryEmail = user.emailAddresses[0]?.emailAddress;

@@ -5,6 +5,34 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+async function createCourse(formData: FormData) {
+  "use server";
+
+  const actor = await currentUser();
+  if (!actor || actor.role !== "INSTRUCTOR") {
+    redirect("/dashboard");
+  }
+
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const imageUrl = formData.get("imageUrl") as string;
+
+  if (!title || !description) {
+    throw new Error("Title and description are required");
+  }
+
+  await db.course.create({
+    data: {
+      title,
+      description,
+      imageUrl: imageUrl || undefined,
+      ownerId: actor.id,
+    },
+  });
+
+  redirect("/instructor/dashboard");
+}
+
 export default async function CreateCoursePage() {
   const user = await currentUser();
 
@@ -14,31 +42,6 @@ export default async function CreateCoursePage() {
 
   if (user.role !== "INSTRUCTOR") {
     redirect("/dashboard");
-  }
-
-  async function createCourse(formData: FormData) {
-    "use server";
-
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-    const imageUrl = formData.get("imageUrl") as string;
-
-    if (!title || !description) {
-      throw new Error("Title and description are required");
-    }
-
-    if (user) {
-      await db.course.create({
-        data: {
-          title,
-          description,
-          imageUrl,
-          ownerId: user.id,
-        },
-      });
-    }
-
-    redirect("/instructor/dashboard");
   }
 
   return (

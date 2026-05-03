@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
 import { currentUser } from "@clerk/nextjs/server";
-import { UserRole } from "@prisma/client";
+import { UserRole } from "@/generated/prisma/client";
 
 export async function initializeUser() {
   const clerkUser = await currentUser();

@@ -7,7 +7,7 @@ export default async function Page() {
 
   if (user) {
     if (user.role === "ADMIN") {
-      redirect("/admin/dashboard");
+      redirect("/dashboard");
     } else if (user.role === "INSTRUCTOR") {
       redirect("/instructor/dashboard");
     } else {

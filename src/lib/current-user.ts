@@ -2,7 +2,7 @@ import { db } from "@/server/db";
 import { auth } from "@clerk/nextjs/server";
 
 export const currentUser = async () => {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     return null;
